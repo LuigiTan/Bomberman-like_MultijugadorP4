@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 3767730657955632754}
   - component: {fileID: 570534903323720644}
   - component: {fileID: 5544088804477405339}
+  - component: {fileID: -7991802002337541987}
   m_Layer: 0
   m_Name: TankPlayer
   m_TagString: Player
@@ -375,6 +376,8 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  BaseBulletLife: 1
+  ExtraPenetrationAmmount: 1
   kills: 0
 --- !u!114 &3940490742944993177
 MonoBehaviour:
@@ -408,7 +411,7 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  health: 3
+  maxHealth: 3
   currentHealth: 0
 --- !u!114 &-4754287484358476286
 MonoBehaviour:
@@ -562,6 +565,22 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &-7991802002337541987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806811398142002079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc834054eb7a9474fb8c6863ab0f60d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  respawnDelay: 3
 --- !u!1 &5847230492494728266
 GameObject:
   m_ObjectHideFlags: 0

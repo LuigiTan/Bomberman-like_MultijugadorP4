@@ -31,7 +31,7 @@ public class LeaderBoardManager : NetworkBehaviour
         // De mayor kills a menor
         players = players.OrderByDescending(p => p.kills).ToList();
 
-        RpcUpdateLeaderboard(players.Select(p => $"{p.name}: {p.kills}").ToArray());
+        RpcUpdateLeaderboard(players.Select(p => $"{p.name} - {p.kills} Kills").ToArray());
     }
 
     [ClientRpc]

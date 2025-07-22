@@ -12,6 +12,12 @@ public class Bullet : NetworkBehaviour
     [SyncVar]
     public GameObject owner;
 
+    //Esto se usa para que al disparar se setie la vida, en vez de que la bala siempre lo tenga. Cosas del power up
+    public void SetBulletLife(int life)
+    {
+        bulletlife = life;
+    }
+    //Estos comentarios es por si lo tengo que borrar.
     void OnTriggerEnter(Collider other)
     {
         if (!isServer) return;
@@ -35,6 +41,12 @@ public class Bullet : NetworkBehaviour
 
         if (other.CompareTag("Player"))
         {
+            if (other.gameObject == owner)
+            {
+                Debug.Log("La bala pego con el dueño de esta asi que se ignoro.");
+                return;//Para que no te puedas suicidar xd
+            }
+                
             TankHealth health = other.GetComponent<TankHealth>();
             Debug.Log("Pego con un jugador");
             if (health != null)

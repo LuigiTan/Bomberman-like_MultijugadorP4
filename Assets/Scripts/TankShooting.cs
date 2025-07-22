@@ -18,7 +18,7 @@ public class TankShooting : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-        //Estupidamente poco optimo porque estoy guardando constantemente la ultima vez que se disparo
+        //Tal vez poco optimo porque estoy guardando constantemente la ultima vez que se disparo
         //Pero como es multiplayer no estoy seguro si usar un yield return perjudique algo
         if (Input.GetMouseButtonDown(0) && Time.time >= lastFireTime + fireCooldown)
         {
@@ -30,12 +30,33 @@ public class TankShooting : NetworkBehaviour
     [Command]
     void CmdFire()
     {
+
+        //[HERE] Se van a modificar y añadir lineas para agregar el power up. Las voy a marcar para quitarlas o cambiarlas si es necesario
+        PlayerStats stats = GetComponent<PlayerStats>();//Referencia a los stats
+        //Antes no estaba 
+
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+
+        //[AQUI]   Esto antes estaba en donde esta comentado ahora
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        //
+
+        //[AQUI ]Esta seccion acontinuacion antes no estaba
+        int currentLife = stats.GetCurrentBulletLife(); // Evalúa si hay power-up activo
+        bulletScript.SetBulletLife(currentLife);
+        stats.UseBullet(); // Disminuye los disparos restantes del power-up
+        //
+
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
-        //Esto deberia asignarle el owner a la bala
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        //[AQUI]  Esto deberia asignarle el owner a la bala
+        //Bullet bulletScript = bullet.GetComponent<Bullet>();
+        
+        //Regresar lo de arriba de ser necesario
+
         bulletScript.SetOwner(gameObject);
 
         NetworkServer.Spawn(bullet);

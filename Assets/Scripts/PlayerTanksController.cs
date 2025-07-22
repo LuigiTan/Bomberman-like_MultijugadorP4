@@ -5,6 +5,8 @@ using Mirror;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerTanksController : NetworkBehaviour
 {
+    //public Camera mainCamera;      // PlayCamara
+    //public Camera startCamera;     // Camara de "Lobby"
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 100f;
@@ -18,7 +20,7 @@ public class PlayerTanksController : NetworkBehaviour
 
     void FixedUpdate()
     {
-        
+
         if (!isLocalPlayer) return;
 
         HandleMovement();
@@ -26,11 +28,11 @@ public class PlayerTanksController : NetworkBehaviour
 
     void HandleMovement()
     {
-        
+
         float moveInput = Input.GetAxis("Vertical");   // W / S
         float turnInput = Input.GetAxis("Horizontal"); // A / D
 
-        
+
         Vector3 moveDirection = transform.forward * moveInput * moveSpeed * Time.deltaTime;
         rb.MovePosition(rb.position + moveDirection);
 
@@ -70,7 +72,37 @@ public class PlayerTanksController : NetworkBehaviour
     /// Called when the local player object has been set up.
     /// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
     /// </summary>
-    public override void OnStartLocalPlayer() { }
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        if (!isLocalPlayer) return; //Por si acaso
+
+        GameObject main = GameObject.Find("Main Camera");//La de juego
+        
+        GameObject start = GameObject.Find("StartCamera");//La de antes de conectarse
+
+        // Se activa la camara principal
+        if (main != null)
+        {
+            main.GetComponent<Camera>().enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró la cámara Main Camera");
+        }
+
+
+        // Se desactiva la otra
+        if (start != null)
+        {
+            start.GetComponent<Camera>().enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró la cámara StartCamera");
+        }
+            
+    }
 
     /// <summary>
     /// Called when the local player object is being stopped.
